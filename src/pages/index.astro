@@ -63,6 +63,40 @@ import Footer from "../components/footer-content/Footer.astro";
 </script>
 
 <script>
+const tabs = document.querySelectorAll<HTMLElement>('.tab');
+tabs.forEach((tab: HTMLElement) => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const targetId = tab.dataset.target!;
+    document.querySelectorAll<HTMLElement>('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(targetId)!.classList.add('active');
+  });
+});
+
+let currentSlide = 0;
+const slides = document.querySelectorAll<HTMLElement>('.slider .slide');
+const prevBtn = document.querySelector<HTMLButtonElement>('.slider-prev')!;
+const nextBtn = document.querySelector<HTMLButtonElement>('.slider-next')!;
+
+const showSlide = (index: number) => {
+  slides.forEach(s => s.classList.remove('active-slide'));
+  slides[index].classList.add('active-slide');
+};
+
+prevBtn.addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+});
+
+nextBtn.addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+});
+
+</script>
+
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         const slides = document.querySelectorAll('.slide');
         const nextButton = document.querySelector('.slider-next') as HTMLElement | null;
@@ -319,73 +353,220 @@ import Footer from "../components/footer-content/Footer.astro";
             </div>
         </section>
 
-
-
-    <section id="features" >
-        <h2 style="margin-top: 6.5rem">Sobre Nosotros</h2>
+        <section id="features">
+        <h2 style="margin-top:6.5rem">Sobre Nosotros</h2>
         <p class="p-1">Descubre quienes son los responsables de que CambiaZo sea una realidad.</p>
         <section id="about-us">
             <div class="slider">
-                <!-- Pantalla 1: Información de la Startup -->
-                <div class="slide active-slide">
-                    <div class="about-content">
-                        <div class="about-info">
-                            <h1 class="quienes-somos-h2">¿Quiénes Somos?</h1>
-                            <p>
-                                CambiaZo es una plataforma innovadora que permite a las personas intercambiar con tecnología IoT. Nuestro objetivo es promover un estilo de vida más sostenible, donde cada objeto tenga un propósito y un impacto positivo.
-                            </p>
-                        </div>
-                    <div class="about-video">
-                        <img src="/assets/images/about-us/cartel-vertical.png" alt="Nuestro equipo" width="80%" height="100%">
-                    </div>
-                    </div>
+        <div class="slide active-slide" id="slide-1">
+        <!-- TABS -->
+        <div class="tab-container">
+            <div class="tab active" data-target="team-video">
+            <div class="tab-icon">
+                <img src="/assets/images/about-us/team_logo.png" alt="Team">
+            </div>
+            <div class="tab-text">Video about<br>the team</div>
+            </div>
+            <div class="tab" data-target="product-video">
+            <div class="tab-icon">
+                <img src="/assets/images/about-us/box_logo.png" alt="Product">
+            </div>
+            <div class="tab-text">Video about <br>the product</div>
+            </div>
+        </div>
+
+        <!-- CONTENIDOS -->
+        <div class="tab-contents">
+            <!-- SOBRE EL EQUIPO -->
+            <div class="tab-content active" id="team-video">
+            <div class="about-content">
+                <div class="about-info">
+                <h1 class="quienes-somos-h2">¿Quiénes Somos?</h1>
+                <p>
+                    En CambiaZo somos un equipo multidisciplinar apasionado por la innovación y la sostenibilidad.
+                    Combinamos experiencia en Internet de las Cosas, metodologías ágiles y diseño centrado en el usuario
+                    para ofrecer una plataforma de intercambio inteligente. Nuestra misión es conectar objetos físicos al
+                    mundo digital, fomentando un consumo responsable y reduciendo el impacto ambiental.
+                </p>
                 </div>
-
-
-                <!-- Pantalla 2: Cards de miembros -->
-                <div class="slide">
-                    <div class="about-cards">
-                        <a href="https://www.linkedin.com/in/ian-santisteban-palomino/" target="_blank" class="about-card">
-                            <img src="/assets/images/about-us/IanSantisteban.png" alt="Ian">
-                            <h3>Ian Santisteban</h3>
-                            <p class="role">Scrum Master</p>
-                            <p>Ian tiene una amplia experiencia en la gestión de equipos ágiles y optimización de procesos.</p>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jeremyquispe/" target="_blank" class="about-card">
-                            <img src="/assets/images/about-us/JeremyQuispe.jpeg" alt="Jeremy">
-                            <h3>Jeremy Quispe</h3>
-                            <p class="role">Product Owner</p>
-                            <p>Jeremy se especializa en la planificación estratégica y la coordinación de proyectos tecnológicos.</p>
-                        </a>
-                        <a href="https://www.linkedin.com/in/mathias-mendoza-carri%C3%B3n-08369632b/" target="_blank" class="about-card">
-                            <img src="/assets/images/about-us/MathiasMendoza.png" alt="Mathias">
-                            <h3>Mathias Mendoza</h3>
-                            <p class="role">Developer</p>
-                            <p>Mathias es un desarrollador apasionado por crear soluciones innovadoras y eficientes.</p>
-                        </a>
-                        <a href="https://www.linkedin.com/in/joseph-huamani-mandujano/" target="_blank" class="about-card">
-                            <img src="/assets/images/about-us/JosephHuamani.png" alt="Joseph">
-                            <h3>Joseph Huamani</h3>
-                            <p class="role">Developer</p>
-                            <p>Joseph destaca por su habilidad en el desarrollo de aplicaciones escalables y robustas.</p>
-                        </a>
-                        <a href="https://www.linkedin.com/in/sandro-quispesivana/" target="_blank" class="about-card">
-                            <img src="https://github.com/TechZo-1ASI0572-2942/Report/raw/main/Resources/Chapter-I/Profiles/augustopin.jpg" alt="Augusto">
-                            <h3>Augusto Pin </h3>
-                            <p class="role">Developer</p>
-                            <p>Augusto se especializa en la creación de soluciones eficientes y programación.</p>
-                        </a>
-                    </div>
-                </div>
-
-
-                <!-- Controles del Slider -->
-                <div class="slider-controls">
-                    <button class="slider-prev">&#10094;</button>
-                    <button class="slider-next">&#10095;</button>
+                <div class="about-video">
+                <iframe
+                    width="100%"
+                    height="450"
+                    src="https://www.youtube.com/embed/bqYlbluvIF8"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
                 </div>
             </div>
+            </div>
+
+            <!-- SOBRE EL PRODUCTO -->
+            <div class="tab-content" id="product-video">
+            <div class="about-content">
+                <div class="about-info">
+                <h1 class="quienes-somos-h2">Sobre el Producto</h1>
+                <p>
+                    CambiaZo integra sensores IoT en cada artículo para monitorizar su estado y ubicación en tiempo real.
+                    Nuestra plataforma web y móvil permite a los usuarios publicar, buscar y concretar intercambios de forma
+                    segura y rápida. Con notificaciones automáticas y trazabilidad completa, reinventamos la manera de
+                    compartir y reutilizar objetos, impulsando una economía circular sostenible.
+                </p>
+                </div>
+                <div class="about-video">
+                <iframe
+                    width="100%"
+                    height="450"
+                    src="https://www.youtube.com/embed/9nQ0t5Dicuc"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+            <div class="slide" id="slide-2">
+                <div class="about-cards">
+                <a href="https://www.linkedin.com/in/ian-santisteban-palomino/" target="_blank" class="about-card">
+                    <img src="/assets/images/about-us/IanSantisteban.png" alt="Ian">
+                    <h3>Ian Santisteban</h3>
+                    <p class="role">Scrum Master</p>
+                    <p>Ian tiene una amplia experiencia en la gestión de equipos ágiles y optimización de procesos.</p>
+                </a>
+                <a href="https://www.linkedin.com/in/jeremyquispe/" target="_blank" class="about-card">
+                    <img src="/assets/images/about-us/JeremyQuispe.jpeg" alt="Jeremy">
+                    <h3>Jeremy Quispe</h3>
+                    <p class="role">Product Owner</p>
+                    <p>Jeremy se especializa en la planificación estratégica y la coordinación de proyectos tecnológicos.</p>
+                </a>
+                <a href="https://www.linkedin.com/in/mathias-mendoza-carri%C3%B3n-08369632b/" target="_blank" class="about-card">
+                    <img src="/assets/images/about-us/MathiasMendoza.png" alt="Mathias">
+                    <h3>Mathias Mendoza</h3>
+                    <p class="role">Developer</p>
+                    <p>Mathias es un desarrollador apasionado por crear soluciones innovadoras y eficientes.</p>
+                </a>
+                <a href="https://www.linkedin.com/in/joseph-huamani-mandujano/" target="_blank" class="about-card">
+                    <img src="/assets/images/about-us/JosephHuamani.png" alt="Joseph">
+                    <h3>Joseph Huamani</h3>
+                    <p class="role">Developer</p>
+                    <p>Joseph destaca por su habilidad en el desarrollo de aplicaciones escalables y robustas.</p>
+                </a>
+                <a href="https://www.linkedin.com/in/sandro-quispesivana/" target="_blank" class="about-card">
+                    <img src="https://github.com/TechZo-1ASI0572-2942/Report/raw/main/Resources/Chapter-I/Profiles/augustopin.jpg" alt="Augusto">
+                    <h3>Augusto Pin</h3>
+                    <p class="role">Developer</p>
+                    <p>Augusto se especializa en la creación de soluciones eficientes y programación.</p>
+                </a>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-prev">&#10094;</button>
+                <button class="slider-next">&#10095;</button>
+            </div>
+            </div>
         </section>
+
+        <style>
+        #about-us .slider {
+            display: flex;
+            flex-direction: column;  
+            align-items: center;
+            width: 100%;
+        }
+
+        #about-us .tab-container {
+            display: flex;
+            flex-direction: row;      
+            justify-content: center;  
+            align-items: center;      
+            gap: 2rem;            
+            margin-bottom: 1.5rem;    
+        }
+
+        #about-us .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        #about-us .tab-icon {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #F5C32C;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #about-us .tab-icon img {
+            width: 50%;
+            height: 50%;
+        }
+        #about-us .tab-text {
+            margin-top: 8px;
+            font-size: 14px;
+            text-align: center;
+            color: #ffffff;
+        }
+        #about-us .tab.active .tab-icon {
+            background-color: #F5C32C;
+        }
+        #about-us .tab.active .tab-text {
+            color: #F5C32C;
+        }
+
+        #about-us .tab-contents {
+            position: relative;
+            padding-top: 4rem; 
+            width: 100%;
+        }
+        #about-us .tab-content {
+            display: none;
+        }
+        #about-us .tab-content.active {
+            display: block;
+        }
+
+        #about-us .slider .slide {
+            display: none;
+            width: 100%;
+        }
+        #about-us .slider .slide.active-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #about-us .slider-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1630px;
+            margin-top: 20px;
+        }
+        #about-us .slider-prev,
+        #about-us .slider-next {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #about-us .slider-prev:hover,
+        #about-us .slider-next:hover {
+            background-color: #000;
+        }
+        </style>
+
 
         <div class="separating-line"></div>
 
@@ -761,7 +942,7 @@ import Footer from "../components/footer-content/Footer.astro";
         background-color: #18181b;
         color: white;
         padding: 30px;
-        margin-top: -7rem;
+        margin-top: 0;
         text-align: center;
         border-top-left-radius: 60px;
         border-top-right-radius: 60px;
@@ -824,7 +1005,7 @@ import Footer from "../components/footer-content/Footer.astro";
         background-color: transparent;
         border-radius: 20px;
         padding: 4rem 5rem;
-        max-width: 1400px;
+        max-width: 1500px;
         margin: 5rem auto;
         margin-top: 0.1rem;
         position: relative;
